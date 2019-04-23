@@ -18,23 +18,54 @@
  * See AUTHORS.md for complete list of ndnabac authors and contributors.
  */
 
-#ifndef NDNABAC_ALGO_COMMON_HPP
-#define NDNABAC_ALGO_COMMON_HPP
+#ifndef NDNABAC_ALGO_SIGNED_MESSAGE_HPP
+#define NDNABAC_ALGO_SIGNED_MESSAGE_HPP
 
-#include "../common.hpp"
-#include <ndn-cxx/encoding/block-helpers.hpp>
-#include <ndn-cxx/encoding/estimator.hpp>
+#include "algo-common.hpp"
+#include "public-params.hpp"
 
-#include <pbc.h>
-#include <glib.h>
-#include <bswabe.h>
-#include <openssl/sha.h>
+namespace ndn {
+namespace ndnabac {
+namespace algo {
 
-class RNG;
-class ZP;
-class G;
-class G1;
-class G2;
-class GT;
+class SignedMessage
+{
+public:
+  /**
+   * @brief Fast encoding or block size estimation
+   */
+  template<encoding::Tag TAG>
+  size_t
+  wireEncode(EncodingImpl<TAG>& encoder) const;
 
-#endif // NDNABAC_ALGO_COMMON_HPP
+  /**
+   * @brief Encode to a wire format
+   */
+  const Block&
+  wireEncode() const;
+
+  /**
+   * @brief Decode the input from wire format
+   */
+  void
+  wireDecode(const Block& wire);
+
+  Block
+  makeDataContent();
+
+  Block
+  makeCKContent();
+
+public:
+  GByteArray* m_sgn; // encrypted AES key
+  Buffer m_signedmsg; // encrypted content
+  uint32_t m_plainTextSize; // plain text length
+
+  mutable Block m_wire;
+};
+
+} // namespace algo
+} // namespace ndnabac
+} // namespace ndn
+
+#endif // NDNABAC_ALGO_SIGNED_MESSAGE_HPP
