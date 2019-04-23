@@ -91,27 +91,6 @@ ABSSupport::signs(const PublicParams& pubParams, PrivateKey& signingKey,
 
   return result;
 
- // using namespace std;
-
-
- /* // instantiate PRNG with entropy from K
-    PRNG.reset(new OpenABECTR_DRBG(K->getInternalPtr(), K->getLength()));
-    // hashK buffer as initial seed (or plaintext)
-    PRNG->setSeed(hashK);
-    // extract length bytes from RNG then XOR with plaintext
-    y.reset(new OpenABEByteString);
-    PRNG->getRandomBytes(y.get(), target_len);
-    // y = y XOR plaintext
-    *y ^= *plaintext; */
- 
-  /*GByteArray signedMessage{plainText.data(), static_cast<guint>(plainText.size())};
-  // GByteArray* content = new GByteArray{buf, length};
-  GByteArray signedmsg = computeHash(std::to_string(signedMessage), m);
-  element_clear(m);
-
-  result.m_signedmsg = Buffer(signedmsg->data, signedmsg->len);
-  result.m_plainTextSize = plainText.size();
-  return result; */
 }
 
 bool
